@@ -1,10 +1,12 @@
 const express = require('express');
 const mysql = require('mysql2');
+const path = require('path');
 const cors = require('cors'); // 导入 cors 中间件
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 app.use(cors());
+app.use(express.static(path.join(__dirname, 'public')));
 
 // 数据库连接
 const db = mysql.createConnection({
@@ -189,6 +191,10 @@ app.post('/donations', (req, res) => {
         res.json({ message: "inserted!" });
     });
 });
+
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "index.html"));
+})
 
 // 启动服务器
 app.listen(PORT, () => {
