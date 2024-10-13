@@ -7,6 +7,7 @@ import {IndexComponent} from "./index.component";
 import {SearchComponent} from "./search.component";
 import {FundraisersComponent} from "./fundraisers.component";
 import {ContactComponent} from "./contact.component";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import {ContactComponent} from "./contact.component";
     ContactComponent
   ],
   imports: [
+    HttpClientModule,
     BrowserModule,
     AppRoutingModule
   ],
