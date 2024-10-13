@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {ApiService} from "./api.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -102,6 +102,7 @@ import {Router} from "@angular/router";
   `
 })
 export class UpdateComponent {
+  id:string="";
   organizer:string = "";
   caption:string= "";
   target_funding:string= "";
@@ -110,7 +111,23 @@ export class UpdateComponent {
   active:string= "";
   category:string= "";
 
-  constructor(private apiService:ApiService,private router: Router) {
+  constructor(private apiService:ApiService,private router: Router,private route:ActivatedRoute) {
+    route.params.subscribe((params:any) => {
+      const fundraiserId = params.id
+      if (fundraiserId) {
+        this.apiService.getFundraisersById(fundraiserId)
+          .subscribe((result:any)=> {
+            this.id = result.FUNDRAISER_ID
+            this.organizer = result.ORGANIZER
+            this.caption = result.CAPTION
+            this.target_funding = result.TARGET_FUNDING
+            this.current_funding = result.CURRENT_FUNDING
+            this.city = result.CITY
+            this.active = result.ACTIVE
+            this.category = result.CATEGORY_ID
+          })
+      }
+    })
   }
 
   update() {
@@ -150,9 +167,9 @@ export class UpdateComponent {
       alert("Pleaser enter the category")
       return
     }
-    this.apiService.addFundraiser(this.organizer,this.caption,this.target_funding,this.current_funding,this.city,this.active,this.category)
+    this.apiService.updateFundraiser(this.id, this.organizer,this.caption,this.target_funding,this.current_funding,this.city,this.active,this.category)
       .subscribe(result => {
-        alert("Create Complete!")
+        alert("Update Complete!")
         this.router.navigate(['/admin'])
       })
   }

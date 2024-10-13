@@ -45,7 +45,7 @@ import {ApiService} from "./api.service";
           <td>{{fundraiser.CATEGORY || 'N/A'}}</td>
           <td>{{fundraiser.ACTIVE === 1 ? 'YES' : 'NO'}}</td>
           <td style="min-width: 160px">
-            <button class="admin-btn">Update</button>
+            <button class="admin-btn" routerLink="/update/{{fundraiser.FUNDRAISER_ID}}">Update</button>
             <button class="admin-btn" (click)="del(fundraiser)">Delete</button>
           </td>
         </tr>
