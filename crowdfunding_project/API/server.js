@@ -108,6 +108,9 @@ app.get('/fundraisers/:id', (req, res) => {
 // 添加筹款活动
 app.post('/fundraisers', (req, res) => {
     const { organizer, caption, target_funding, current_funding, city, active, category  } = req.params.body;
+    if (!organizer||!caption||!target_funding||!current_funding||!city||!category) {
+        res.status(400).send({ error: 'organizer/caption/target_funding/current_funding/city/category all need!' })
+    }
     // 插入筹款人的详细信息
     const query = 'INSERT INTO FUNDRAISER(ORGANIZER,CAPTION,TARGET_FUNDING,CURRENT_FUNDING,CITY,ACTIVE,CATEGORY_ID) VALUES(?,?,?,?,?,?,?)';
     db.query(query, [organizer,caption, target_funding, current_funding, city, active, category], (error, results) => {
@@ -119,8 +122,12 @@ app.post('/fundraisers', (req, res) => {
 });
 
 // 更新筹款活动
-app.post('/fundraisers', (req, res) => {
-    const { fundraiserId, organizer, caption, target_funding, current_funding, city, active, category  } = req.params.body;
+app.put('/fundraisers/:id', (req, res) => {
+    const fundraiserId = req.params.id;
+    const {  organizer, caption, target_funding, current_funding, city, active, category  } = req.params.body;
+    if (!organizer||!caption||!target_funding||!current_funding||!city||!category) {
+        res.status(400).send({ error: 'organizer/caption/target_funding/current_funding/city/category all need!' })
+    }
     // 插入筹款人的详细信息
     const query = 'UPDATE FUNDRAISER SET ORGANIZER = ?, CAPTION = ?, TARGET_FUNDING = ?, CURRENT_FUNDING = ?, CITY = ?, ACTIVE = ?, CATEGORY_ID = ? WHERE FUNDRAISER_ID = ?;';
     db.query(query, [organizer,caption, target_funding, current_funding, city, active, category, fundraiserId], (error, results) => {
@@ -147,6 +154,9 @@ app.post('/fundraisers/:id', (req, res) => {
 // 捐款
 app.post('/donations', (req, res) => {
     const { amount, giver, fundraiserId  } = req.params.body;
+    if (!amount||!giver||!fundraiserId) {
+        res.status(400).send({ error: 'amount/giver/fundraiserId all need!' })
+    }
     // 插入捐款的信息
     const query = 'INSERT INTO DONATION(DATE,AMOUNT,GIVER,FUNDRAISER_ID) VALUES(?,?,?,?)';
     db.query(query, [new Date(),amount, giver, fundraiserId], (error, results) => {
