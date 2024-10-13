@@ -54,7 +54,21 @@ import {ApiService} from "./api.service";
             <td id="detailsCategory">{{fundraiser.CATEGORY}}</td>
           </tr>
         </table>
-        <button id="donateButton" routerLink="/donation/{{fundraiser.FUNDRAISER_ID}}">Donate</button>
+        <button id="donateButton" routerLink="/donation/{{fundraiser.FUNDRAISER_ID}}" style="margin: 10px 0">Donate</button>
+
+        <h3 class="detail-title">Donations: </h3>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Amount</th>
+          </tr>
+          <tr *ngFor="let donation of fundraiser.donations">
+            <td>{{donation.GIVER}}</td>
+            <td>{{donation.DATE|date:'MMM d, y, h:mm:ss'}}</td>
+            <td>{{donation.AMOUNT}}</td>
+          </tr>
+        </table>
       </div>
     </div>
     <div class="footer" id="contact">

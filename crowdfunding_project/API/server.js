@@ -98,7 +98,15 @@ app.get('/fundraisers/:id', (req, res) => {
             return res.status(500).json({ error: 'Database query error' });
         }
         if (results.length > 0) {
-            res.json(results[0]);
+            // 查询数据库并返回相关筹款
+            const query1 = 'SELECT * FROM DONATION  WHERE FUNDRAISER_ID = ?';
+            db.query(query1, [fundraiserId], (error1, results1) => {
+                if (error1) {
+                    return res.status(500).json({ error: 'Database query error' });
+                }
+                res.json({...results[0], donations: results1});
+            });
+
         } else {
             res.status(404).json({ error: 'Fundraiser not found' });
         }
