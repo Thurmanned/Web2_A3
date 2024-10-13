@@ -9,9 +9,9 @@ import {ApiService} from "./api.service";
       <div class="custom-container">
         <nav class="navbar-custom">
           <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="search.html">Search</a></li>
-            <li><a href="contact.html">Contact</a></li>
+            <li><a routerLink="/">Home</a></li>
+            <li><a routerLink="/search">Search</a></li>
+            <li><a routerLink="/contact">Contact</a></li>
           </ul>
         </nav>
       </div>

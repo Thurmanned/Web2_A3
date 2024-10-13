@@ -115,7 +115,7 @@ app.get('/fundraisers/:id', (req, res) => {
 
 // 添加筹款活动
 app.post('/fundraisers', (req, res) => {
-    const { organizer, caption, target_funding, current_funding, city, active, category  } = req.params.body;
+    const { organizer, caption, target_funding, current_funding, city, active, category  } = req.body;
     if (!organizer||!caption||!target_funding||!current_funding||!city||!category) {
         res.status(400).send({ error: 'organizer/caption/target_funding/current_funding/city/category all need!' })
     }
@@ -132,7 +132,7 @@ app.post('/fundraisers', (req, res) => {
 // 更新筹款活动
 app.put('/fundraisers/:id', (req, res) => {
     const fundraiserId = req.params.id;
-    const {  organizer, caption, target_funding, current_funding, city, active, category  } = req.params.body;
+    const {  organizer, caption, target_funding, current_funding, city, active, category  } = req.body;
     if (!organizer||!caption||!target_funding||!current_funding||!city||!category) {
         res.status(400).send({ error: 'organizer/caption/target_funding/current_funding/city/category all need!' })
     }
@@ -147,7 +147,7 @@ app.put('/fundraisers/:id', (req, res) => {
 });
 
 // 删除筹款活动
-app.post('/fundraisers/:id', (req, res) => {
+app.delete('/fundraisers/:id', (req, res) => {
     const fundraiserId = req.params.id;;
     // 插入筹款人的详细信息
     const query = 'DELETE FROM FUNDRAISER WHERE FUNDRAISER_ID = ?;';
@@ -161,7 +161,7 @@ app.post('/fundraisers/:id', (req, res) => {
 
 // 捐款
 app.post('/donations', (req, res) => {
-    const { amount, giver, fundraiserId  } = req.params.body;
+    const { amount, giver, fundraiserId  } = req.body;
     if (!amount||!giver||!fundraiserId) {
         res.status(400).send({ error: 'amount/giver/fundraiserId all need!' })
     }

@@ -9,6 +9,7 @@ import {FundraisersComponent} from "./fundraisers.component";
 import {ContactComponent} from "./contact.component";
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
+import {DonateComponent} from "./donate.component";
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import {FormsModule} from "@angular/forms";
     IndexComponent,
     SearchComponent,
     FundraisersComponent,
-    ContactComponent
+    ContactComponent,
+    DonateComponent
   ],
   imports: [
     HttpClientModule,

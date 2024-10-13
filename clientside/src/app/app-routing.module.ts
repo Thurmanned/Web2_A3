@@ -4,6 +4,7 @@ import {IndexComponent} from "./index.component";
 import {SearchComponent} from "./search.component";
 import {FundraisersComponent} from "./fundraisers.component";
 import {ContactComponent} from "./contact.component";
+import {DonateComponent} from "./donate.component";
 
 const routes: Routes = [
   {
@@ -17,6 +18,10 @@ const routes: Routes = [
   {
     path: 'fundraisers/:id',
     component: FundraisersComponent
+  },
+  {
+    path: 'donation/:id',
+    component: DonateComponent
   },
   {
     path: 'contact',
