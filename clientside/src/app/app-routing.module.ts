@@ -5,6 +5,7 @@ import {SearchComponent} from "./search.component";
 import {FundraisersComponent} from "./fundraisers.component";
 import {ContactComponent} from "./contact.component";
 import {DonateComponent} from "./donate.component";
+import {AdminComponent} from "./admin.component";
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
   {
     path: 'contact',
     component: ContactComponent
+  },
+  {
+    path: 'admin',
+    component: AdminComponent
   }
 ];
 

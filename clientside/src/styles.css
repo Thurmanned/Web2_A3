@@ -1682,6 +1682,15 @@ h3.title {
   padding: 2em 0 0;
 }
 
+.admin-btn {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 6px;
+  margin-right: 10px;
+}
+
 /*--//about--*/
 #toTop {
   display: none;
