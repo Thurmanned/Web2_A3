@@ -92,7 +92,7 @@ app.get('/search', (req, res) => {
 app.get('/fundraisers/:id', (req, res) => {
     const fundraiserId = req.params.id;
     // 查询数据库并返回筹款人的详细信息
-    const query = 'SELECT * FROM FUNDRAISER f JOIN DONATION d ON f.FUNDRAISER_ID = d.FUNDRAISER_ID  WHERE f.FUNDRAISER_ID = ?';
+    const query = 'SELECT * FROM FUNDRAISER WHERE FUNDRAISER_ID = ?';
     db.query(query, [fundraiserId], (error, results) => {
         if (error) {
             return res.status(500).json({ error: 'Database query error' });
@@ -144,14 +144,21 @@ app.put('/fundraisers/:id', (req, res) => {
     if (!organizer||!caption||!target_funding||!current_funding||!city||!category) {
         res.status(400).send({ error: 'organizer/caption/target_funding/current_funding/city/category all need!' })
     }
-    // 插入筹款人的详细信息
-    const query = 'UPDATE FUNDRAISER SET ORGANIZER = ?, CAPTION = ?, TARGET_FUNDING = ?, CURRENT_FUNDING = ?, CITY = ?, ACTIVE = ?, CATEGORY_ID = ? WHERE FUNDRAISER_ID = ?;';
-    db.query(query, [organizer,caption, target_funding, current_funding, city, active, category, fundraiserId], (error, results) => {
+    const cquery = "SELECT NAME FROM CATEGORY WHERE CATEGORY_ID = ?";
+    db.query(cquery, [category], (error, results) => {
         if (error) {
-            return res.status(500).json({ error: 'Database update error' });
+            return res.status(500).json({error: 'Database query error'});
         }
-        res.json({ message: "updated!" });
-    });
+        // 插入筹款人的详细信息
+        const query = 'UPDATE FUNDRAISER SET ORGANIZER = ?, CAPTION = ?, TARGET_FUNDING = ?, CURRENT_FUNDING = ?, CITY = ?, ACTIVE = ?, CATEGORY_ID = ?, CATEGORY = ? WHERE FUNDRAISER_ID = ?;';
+        db.query(query, [organizer,caption, target_funding, current_funding, city, active, category, results[0].NAME, fundraiserId], (error1, results) => {
+            if (error1) {
+                return res.status(500).json({ error: 'Database update error' });
+            }
+            res.json({ message: "updated!" });
+        });
+    })
+
 });
 
 // 删除筹款活动
