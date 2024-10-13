@@ -118,6 +118,20 @@ app.post('/fundraisers', (req, res) => {
     });
 });
 
+// 更新筹款活动
+app.post('/fundraisers', (req, res) => {
+    const { fundraiserId, organizer, caption, target_funding, current_funding, city, active, category  } = req.params.body;
+    // 插入筹款人的详细信息
+    const query = 'UPDATE FUNDRAISER SET ORGANIZER = ?, CAPTION = ?, TARGET_FUNDING = ?, CURRENT_FUNDING = ?, CITY = ?, ACTIVE = ?, CATEGORY_ID = ? WHERE FUNDRAISER_ID = ?;';
+    db.query(query, [organizer,caption, target_funding, current_funding, city, active, category, fundraiserId], (error, results) => {
+        if (error) {
+            return res.status(500).json({ error: 'Database update error' });
+        }
+        res.json({ message: "updated!" });
+    });
+});
+
+
 
 
 
