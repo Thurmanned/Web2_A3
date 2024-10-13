@@ -144,7 +144,18 @@ app.post('/fundraisers/:id', (req, res) => {
     });
 });
 
-
+// 捐款
+app.post('/donations', (req, res) => {
+    const { amount, giver, fundraiserId  } = req.params.body;
+    // 插入捐款的信息
+    const query = 'INSERT INTO DONATION(DATE,AMOUNT,GIVER,FUNDRAISER_ID) VALUES(?,?,?,?)';
+    db.query(query, [new Date(),amount, giver, fundraiserId], (error, results) => {
+        if (error) {
+            return res.status(500).json({ error: 'Database insert error' });
+        }
+        res.json({ message: "inserted!" });
+    });
+});
 
 // 启动服务器
 app.listen(PORT, () => {
