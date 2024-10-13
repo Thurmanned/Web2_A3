@@ -12,6 +12,7 @@ import {FormsModule} from "@angular/forms";
 import {DonateComponent} from "./donate.component";
 import {AdminComponent} from "./admin.component";
 import {CreateComponent} from "./create.component";
+import {UpdateComponent} from "./update.component";
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import {CreateComponent} from "./create.component";
     ContactComponent,
     DonateComponent,
     AdminComponent,
-    CreateComponent
+    CreateComponent,
+    UpdateComponent
   ],
   imports: [
     HttpClientModule,

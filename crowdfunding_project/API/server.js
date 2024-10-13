@@ -119,14 +119,22 @@ app.post('/fundraisers', (req, res) => {
     if (!organizer||!caption||!target_funding||!current_funding||!city||!category) {
         res.status(400).send({ error: 'organizer/caption/target_funding/current_funding/city/category all need!' })
     }
-    // 插入筹款人的详细信息
-    const query = 'INSERT INTO FUNDRAISER(ORGANIZER,CAPTION,TARGET_FUNDING,CURRENT_FUNDING,CITY,ACTIVE,CATEGORY_ID) VALUES(?,?,?,?,?,?,?)';
-    db.query(query, [organizer,caption, target_funding, current_funding, city, active, category], (error, results) => {
+    const cquery = "SELECT NAME FROM CATEGORY WHERE CATEGORY_ID = ?";
+    db.query(cquery, [category], (error, results) => {
         if (error) {
-            return res.status(500).json({ error: 'Database insert error' });
+            return res.status(500).json({ error: 'Database query error' });
         }
-        res.json({ message: "inserted!" });
+        // 插入筹款人的详细信息
+        const query = 'INSERT INTO FUNDRAISER(ORGANIZER,CAPTION,TARGET_FUNDING,CURRENT_FUNDING,CITY,ACTIVE,CATEGORY_ID,CATEGORY) VALUES(?,?,?,?,?,?,?,?)';
+        db.query(query, [organizer,caption, target_funding, current_funding, city, active, category, results[0].NAME], (error1, results1) => {
+            if (error1) {
+                console.log(error1)
+                return res.status(500).json({ error: 'Database insert error' });
+            }
+            res.json({ message: "inserted!" });
+        });
     });
+
 });
 
 // 更新筹款活动

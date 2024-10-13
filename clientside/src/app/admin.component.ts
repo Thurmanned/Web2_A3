@@ -18,7 +18,7 @@ import {ApiService} from "./api.service";
 
     <h1>Fundraisers</h1>
     <div style="text-align: center;margin-bottom: 20px">
-      <button class="admin-btn">Create</button>
+      <button class="admin-btn" routerLink="/create">Create</button>
     </div>
     <table id="fundraiser-table">
       <thead>

@@ -6,6 +6,8 @@ import {FundraisersComponent} from "./fundraisers.component";
 import {ContactComponent} from "./contact.component";
 import {DonateComponent} from "./donate.component";
 import {AdminComponent} from "./admin.component";
+import {CreateComponent} from "./create.component";
+import {UpdateComponent} from "./update.component";
 
 const routes: Routes = [
   {
@@ -31,6 +33,14 @@ const routes: Routes = [
   {
     path: 'admin',
     component: AdminComponent
+  },
+  {
+    path: 'create',
+    component: CreateComponent
+  },
+  {
+    path: 'update/:id',
+    component: UpdateComponent
   }
 ];
 
