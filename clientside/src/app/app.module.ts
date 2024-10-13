@@ -8,6 +8,7 @@ import {SearchComponent} from "./search.component";
 import {FundraisersComponent} from "./fundraisers.component";
 import {ContactComponent} from "./contact.component";
 import {HttpClientModule} from "@angular/common/http";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import {HttpClientModule} from "@angular/common/http";
   imports: [
     HttpClientModule,
     BrowserModule,
+    FormsModule,
     AppRoutingModule
   ],
   providers: [],

@@ -15,7 +15,7 @@ const routes: Routes = [
     component: SearchComponent
   },
   {
-    path: 'fundraisers',
+    path: 'fundraisers/:id',
     component: FundraisersComponent
   },
   {

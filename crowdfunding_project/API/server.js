@@ -92,7 +92,7 @@ app.get('/search', (req, res) => {
 app.get('/fundraisers/:id', (req, res) => {
     const fundraiserId = req.params.id;
     // 查询数据库并返回筹款人的详细信息
-    const query = 'SELECT * FROM FUNDRAISER f JOIN DONATION d ON f.FUNDRAISER_ID = d.FUNDRAISER_ID  WHERE FUNDRAISER_ID = ?';
+    const query = 'SELECT * FROM FUNDRAISER f JOIN DONATION d ON f.FUNDRAISER_ID = d.FUNDRAISER_ID  WHERE f.FUNDRAISER_ID = ?';
     db.query(query, [fundraiserId], (error, results) => {
         if (error) {
             return res.status(500).json({ error: 'Database query error' });

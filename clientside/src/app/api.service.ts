@@ -15,8 +15,8 @@ export class ApiService {
     return this.http.get(this.server + "/fundraisers")
   }
   // 获取所有活跃的筹款活动
-  getActiveFundraisers() {
-    return this.http.get(this.server + "/fundraisers/active")
+  getActiveFundraisers(organizer:string, city:string, category:string) {
+    return this.http.get(this.server + `/fundraisers/active?ORGANIZER=${organizer}&CITY=${city}&CATEGORY=${category}`)
   }
   // 获取所有类别
   getCategories() {
@@ -27,7 +27,7 @@ export class ApiService {
     return this.http.get(this.server + `/search?organizer=${organizer}&city=${city}&category=${category}`)
   }
   // 获取特定筹款活动
-  getFundraisers(fundraiserId: string) {
+  getFundraisersById(fundraiserId: string) {
     return this.http.get(this.server + "/fundraisers/"+fundraiserId)
   }
   // 添加筹款活动
@@ -59,7 +59,7 @@ export class ApiService {
     return this.http.delete(this.server + "/fundraisers/"+fundraiserId)
   }
   // 捐款
-  addFundraiser(amount:string, giver:string, fundraiserId:string) {
+  addDonation(amount:string, giver:string, fundraiserId:string) {
     return this.http.post(this.server + "/donations", {
       amount: amount,
       giver: giver,

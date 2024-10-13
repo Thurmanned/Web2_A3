@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {ApiService} from "./api.service";
 
 @Component({
   selector: 'app-root',
@@ -18,18 +19,18 @@ import { Component } from '@angular/core';
     <div class="services">
       <div class="container">
         <h2 style="font-size: 40px;">Search for Fundraisers</h2>
-        <form id="search-form">
+        <form id="search-form" (ngSubmit)="search()">
           <div class="form-group">
             <label for="name">Enter an Organizer:</label>
-            <input type="text" id="name" name="name" placeholder="Type a Name..." class="form-control" style="width: 100%; height: 50px;">
+            <input [(ngModel)]="name" type="text" id="name" name="name" placeholder="Type a Name..." class="form-control" style="width: 100%; height: 50px;">
           </div>
           <div class="form-group">
             <label for="city">Enter a City:</label>
-            <input type="text" id="city" name="city" placeholder="Type a City..." class="form-control" style="width: 100%; height: 50px;">
+            <input [(ngModel)]="city" type="text" id="city" name="city" placeholder="Type a City..." class="form-control" style="width: 100%; height: 50px;">
           </div>
           <div class="form-group">
             <label for="category">Select a Category:</label>
-            <select id="category" name="category" class="form-control" style="width: 100%; height: 50px;">
+            <select [(ngModel)]="category" id="category" name="category" class="form-control" style="width: 100%; height: 50px;">
               <option value="">Select a Category</option>
               <option value="Health">Health</option>
               <option value="Education">Education</option>
@@ -40,11 +41,11 @@ import { Component } from '@angular/core';
           </div>
           <div class="form-group">
             <button type="submit" id="search-btn" class="btn">Search</button>
-            <button type="button" id="clear-btn" class="btn" onclick="clearForm()">Clear</button>
+            <button type="button" id="clear-btn" class="btn" (click)="clearForm()">Clear</button>
           </div>
         </form>
 
-        <table id="results-table" class="table mt-3" style="display:none;">
+        <table id="results-table" class="table mt-3" *ngIf="fundraisers.length>0">
           <thead>
           <tr>
             <th>ID</th>
@@ -56,6 +57,13 @@ import { Component } from '@angular/core';
           </thead>
           <tbody>
           <!-- Search results will be added here -->
+            <tr *ngFor="let fundraiser of fundraisers">
+              <td>{{fundraiser.FUNDRAISER_ID}}</td>
+             <td><a routerLink="/fundraisers/{{fundraiser.FUNDRAISER_ID}}">{{fundraiser.ORGANIZER}}</a></td>
+             <td>{{fundraiser.CITY}}</td>
+             <td>{{fundraiser.CATEGORY}}</td>
+             <td><button class="btn" routerLink="/fundraisers/{{fundraiser.FUNDRAISER_ID}}">View Details</button></td>
+            </tr>
           </tbody>
         </table>
         <div id="not-found" class="alert alert-danger mt-3" style="display:none;">Not Found</div>
@@ -100,5 +108,27 @@ import { Component } from '@angular/core';
   `
 })
 export class SearchComponent {
-  title = 'clientside';
+  fundraisers:any=[]
+
+  constructor(private apiService:ApiService) {
+  }
+  name = ""
+  city = ""
+  category = ""
+  search() {
+    if (!this.name && !this.city && !this.category) {
+      alert('Please Enter at Least One Search Criterion (Organizer, City, or Category).');
+      return;
+    }
+    this.apiService.getActiveFundraisers(this.name,this.city,this.category)
+      .subscribe(result=> {
+        this.fundraisers=result
+      })
+  }
+  clearForm() {
+    this.fundraisers=[]
+    this.name = ""
+    this.city = ""
+    this.category = ""
+  }
 }

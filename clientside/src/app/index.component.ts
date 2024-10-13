@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {ApiService} from "./api.service";
 
 @Component({
   selector: 'app-root',
@@ -77,6 +78,16 @@ import { Component } from '@angular/core';
       </tr>
       </thead>
       <tbody>
+        <tr *ngFor="let fundraiser of fundraisers">
+          <td>{{fundraiser.FUNDRAISER_ID || 'N/A'}}</td>
+                    <td>{{fundraiser.ORGANIZER || 'N/A'}}</td>
+                    <td>{{fundraiser.CAPTION || 'N/A'}}</td>
+                    <td>{{fundraiser.TARGET_FUNDING || 'N/A'}}</td>
+                    <td>{{fundraiser.CURRENT_FUNDING || 'N/A'}}</td>
+                    <td>{{fundraiser.CITY || 'N/A'}}</td>
+                    <td>{{fundraiser.CATEGORY || 'N/A'}}</td>
+                    <td>{{fundraiser.ACTIVE === 1 ? 'YES' : 'NO'}}</td>
+        </tr>
       </tbody>
     </table>
 
@@ -114,5 +125,15 @@ import { Component } from '@angular/core';
   `
 })
 export class IndexComponent {
-  title = 'clientside';
+  fundraisers:any=[]
+
+  constructor(private apiService:ApiService) {
+  }
+
+  ngOnInit() {
+    this.apiService.getActiveFundraisers("","","")
+      .subscribe((result:any) => {
+        this.fundraisers=result
+      })
+  }
 }

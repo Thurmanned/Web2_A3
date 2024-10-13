@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {ActivatedRoute} from "@angular/router";
+import {ApiService} from "./api.service";
 
 @Component({
   selector: 'app-root',
@@ -16,7 +18,7 @@ import { Component } from '@angular/core';
     </div>
 
     <div class="container">
-      <div id="fundraiserDetails" style="display:none;">
+      <div id="fundraiserDetails">
         <h2 class="detail-title" id="detailsTitle"></h2>
         <table>
           <tr>
@@ -25,34 +27,34 @@ import { Component } from '@angular/core';
           </tr>
           <tr>
             <td>Fundraiser ID</td>
-            <td id="detailsFUNDRAISER_ID"></td>
+            <td id="detailsFUNDRAISER_ID">{{fundraiser.FUNDRAISER_ID}}</td>
           </tr>
           <tr>
             <td>Organizer</td>
-            <td id="detailsOrganizer"></td>
+            <td id="detailsOrganizer">{{fundraiser.ORGANIZER}}</td>
           </tr>
           <tr>
             <td>Caption</td>
-            <td id="detailsCaption"></td>
+            <td id="detailsCaption">{{fundraiser.CAPTION}}</td>
           </tr>
           <tr>
             <td>Target Funding</td>
-            <td id="detailsTargetFunding"></td>
+            <td id="detailsTargetFunding">{{fundraiser.TARGET_FUNDING}}</td>
           </tr>
           <tr>
             <td>Current Funding</td>
-            <td id="detailsCurrentFunding"></td>
+            <td id="detailsCurrentFunding">{{fundraiser.CURRENT_FUNDING}}</td>
           </tr>
           <tr>
             <td>City</td>
-            <td id="detailsCity"></td>
+            <td id="detailsCity">{{fundraiser.CITY}}</td>
           </tr>
           <tr>
             <td>Category</td>
-            <td id="detailsCategory"></td>
+            <td id="detailsCategory">{{fundraiser.CATEGORY}}</td>
           </tr>
         </table>
-        <button id="donateButton" onclick="showUnderConstruction()">Donate</button>
+        <button id="donateButton" routerLink="/donation/{{fundraiser.FUNDRAISER_ID}}">Donate</button>
       </div>
     </div>
     <div class="footer" id="contact">
@@ -94,5 +96,17 @@ import { Component } from '@angular/core';
   `
 })
 export class FundraisersComponent {
-  title = 'clientside';
+  fundraiser: any = null
+
+  constructor(private apiService:ApiService,private route:ActivatedRoute) {
+    route.params.subscribe((params:any) => {
+      const fundraiserId = params.id
+      if (fundraiserId) {
+        this.apiService.getFundraisersById(fundraiserId)
+          .subscribe(result=> {
+            this.fundraiser = result
+          })
+      }
+    })
+  }
 }
