@@ -131,7 +131,18 @@ app.post('/fundraisers', (req, res) => {
     });
 });
 
-
+// 删除筹款活动
+app.post('/fundraisers/:id', (req, res) => {
+    const fundraiserId = req.params.id;;
+    // 插入筹款人的详细信息
+    const query = 'DELETE FROM FUNDRAISER WHERE FUNDRAISER_ID = ?;';
+    db.query(query, [fundraiserId], (error, results) => {
+        if (error) {
+            return res.status(500).json({ error: 'Database delete error' });
+        }
+        res.json({ message: "deleted!" });
+    });
+});
 
 
 
