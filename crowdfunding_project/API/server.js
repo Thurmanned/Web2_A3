@@ -10,7 +10,7 @@ app.use(cors());
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'stw.5255.molu', // 数据库密码
+    password: '123456', // 数据库密码
     database: 'crowdfunding_db'
 });
 
@@ -37,19 +37,19 @@ app.get('/fundraisers/active', (req, res) => {
     const params = [];
 
     if (CATEGORY) {
-        query += ' AND c.name = ?'; 
-        params.push(CATEGORY); 
+        query += ' AND c.name = ?';
+        params.push(CATEGORY);
     }
     if (ORGANIZER) {
-        query += ' AND f.organizer LIKE ?'; 
+        query += ' AND f.organizer LIKE ?';
         params.push(`%${ORGANIZER}%`);
     }
     if (CITY) {
-        query += ' AND f.city LIKE ?'; 
+        query += ' AND f.city LIKE ?';
         params.push(`%${CITY}%`);
     }
 
-    console.log('Generated SQL query:', query, params); 
+    console.log('Generated SQL query:', query, params);
 
     db.query(query, params, (err, results) => {
         if (err) {
@@ -104,6 +104,21 @@ app.get('/fundraisers/:id', (req, res) => {
         }
     });
 });
+
+// 添加筹款活动
+app.post('/fundraisers', (req, res) => {
+    const { organizer, caption, target_funding, current_funding, city, active, category  } = req.params.body;
+    // 插入筹款人的详细信息
+    const query = 'INSERT INTO FUNDRAISER(ORGANIZER,CAPTION,TARGET_FUNDING,CURRENT_FUNDING,CITY,ACTIVE,CATEGORY_ID) VALUES(?,?,?,?,?,?,?)';
+    db.query(query, [organizer,caption, target_funding, current_funding, city, active, category], (error, results) => {
+        if (error) {
+            return res.status(500).json({ error: 'Database insert error' });
+        }
+        res.json({ message: "inserted!" });
+    });
+});
+
+
 
 
 // 启动服务器
